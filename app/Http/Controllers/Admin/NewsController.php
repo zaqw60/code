@@ -46,7 +46,7 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        return 'Admin Some News Show';
+        return 'Admin News Show';
     }
 
     /**
