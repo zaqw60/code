@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -29,14 +31,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (){
 });
 
 
- // news routes
+ // news routesfeedback
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '\d+')->name('news.show');
 
+ //feedback route
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 
-Route::get('/info', function () {
-    return "info";
-});
-
+//order route
+Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+Route::post('order', [OrderController::class, 'store'])->name('order.store');
 

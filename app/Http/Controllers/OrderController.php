@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
-class CategoryController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       return view('admin.categories.index');
+        return view('order/orderParsing');
     }
 
     /**
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        //
     }
 
     /**
@@ -35,11 +35,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json($request->only('title', 'description'));
+        return response()->json($request->only('userName', 'phone', 'email', 'description'));
         $request->validate([
-            'title' => ['required', 'string', 'min:5', 'max:255']
+            'title' => ['required', 'string', 'min:3', 'max:255']
         ]);
-
     }
 
     /**
@@ -61,7 +60,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.categories.edit');
+        //
     }
 
     /**
