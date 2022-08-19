@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
-class NewsController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('admin.news.index', ['newsList'=>$this->getNews()]);
+        return view('order/orderParsing');
     }
 
     /**
@@ -24,7 +24,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create');
+        //
     }
 
     /**
@@ -35,7 +35,10 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json($request->only('userName', 'phone', 'email', 'description'));
+        $request->validate([
+            'title' => ['required', 'string', 'min:3', 'max:255']
+        ]);
     }
 
     /**
@@ -46,7 +49,7 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        return 'Admin Some News Show';
+        //
     }
 
     /**
@@ -57,7 +60,7 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.news.edit');
+        //
     }
 
     /**
