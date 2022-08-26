@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -14,6 +16,17 @@ class NewsController extends Controller
      */
     public function index()
     {
+        dd(
+            DB::table('news')
+            ->where([
+                ['status', '=',News::DRAFT],
+                ['id', '>', 5]
+            ])
+                ->orWhere('status', '=' ,News::BLOCKED)
+            ->get()
+            //->toSql()
+        );
+
         return view('admin.news.index', ['newsList'=>$this->getNews()]);
     }
 

@@ -36,10 +36,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (){
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '\d+')->name('news.show');
 
+
  //feedback route
-Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+
+//Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::resource('feedback', FeedbackController::class);
 
 //order route
-Route::get('/order', [OrderController::class, 'index'])->name('order.index');
-Route::post('order', [OrderController::class, 'store'])->name('order.store');
-
+Route::Resource('order', OrderController::class);
