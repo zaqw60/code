@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use App\Models\News;
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +27,8 @@ class NewsSeeder extends Seeder
 
         for ($i=0; $i<10; $i++){
             $data[] = [
-                'category_id' => 1,
+                'category_id' => $faker->unique()->numberBetween(1,10),
+                'source_id' => $faker -> numberBetween(1,10),
                 'title' => $faker -> jobTitle(),
                 'author' => $faker -> userName(),
                 'status' => News::DRAFT,
@@ -40,3 +40,5 @@ class NewsSeeder extends Seeder
         return $data;
     }
 }
+
+
