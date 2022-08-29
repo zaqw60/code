@@ -2,6 +2,7 @@
 @section('content')
     <h2>Список категорий</h2>
     <div class="table-responsive">
+        @include('inc.message')
         <table class="table table-striped table-sm">
             <thead>
             <tr>
@@ -26,7 +27,9 @@
             @endforelse
             </tbody>
         </table>
+
+        {{ $categories->links() }}
     </div>
-    <a href="{{ route('admin.categories.create') }}" style="float: right" type="btn btn-primary">Добавить категорию</a>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-success" style="float: right">Добавить категорию</a>
 @endsection
 

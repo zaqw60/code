@@ -7,7 +7,7 @@
             @include('inc.message', ['message' => $error])
         @endforeach
     @endif
-    <form method="post" action="{{ route('admin.categories.store', ['status=1']) }}">
+    <form method="post" action="{{ route('admin.categories.store') }}">
         @csrf
         <div class="form-group">
             <label for="title">Заголовок</label>

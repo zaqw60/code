@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
@@ -13,13 +14,26 @@ class News extends Model
     public const ACTIVE = 'ACTIVE';
     public const BLOCKED = 'BLOCKED';
 
-    public function getNews()
-    {
+    protected $fillable = [
+        'category_id',
+        'source_id',
+        'title',
+        'slug',
+        'author',
+        'status',
+        'image',
+        'description'
+    ];
 
+    //Relations
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function getNewsById()
+    public function source(): BelongsTo
     {
-
+        return $this->belongsTo(Category::class, 'source_id', 'id');
     }
 }
