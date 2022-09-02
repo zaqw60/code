@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = app(Category::class)->getCategories();
-       return view('admin.categories.index', [
-           'categories' => $categories
-       ]);
+        return view('feedback.create');
     }
 
     /**
@@ -28,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+
     }
 
     /**
@@ -39,11 +34,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json($request->only('title', 'description'));
-        $request->validate([
-            'title' => ['required', 'string', 'min:5', 'max:255']
-        ]);
-
+        //
     }
 
     /**
@@ -65,7 +56,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.categories.edit');
+        //
     }
 
     /**
