@@ -34,6 +34,6 @@ class News extends Model
 
     public function source(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'source_id', 'id');
+        return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 }

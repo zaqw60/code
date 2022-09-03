@@ -2,19 +2,18 @@
 @section('content')
     <div class="offset-2 col-8">
         <h2>Добавление новости</h2>
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                @include('inc.message', ['message' => $error])
-            @endforeach
-        @endif
+
+        @include('inc.message')
+
         <form method="post" action="{{ route('admin.news.store') }}">
             @csrf
+            @method('put')
             <div class="form-group">
                 <label for="category_id">Выбрать категорию</label>
                 <select name="category_id" class="form-control" id="category_id">
                     <option value="0">Выбрать</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @if(old('catigory_id') === $category->id) selected @endif>{{ $category->title }}</option>
+                        <option value="{{ $category->id }}" @if(old('$category_id') === $category->id) selected @endif>{{ $category->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -30,10 +29,12 @@
             <div class="form-group">
                 <label for="title">Заголовок</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
+                @error('title') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label for="author">Автор</label>
-                <input type="author" class="form-control" name="author" id="author" value="{{ old('author') }}">
+                <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
+                @error('author') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label for="status">Статус</label>

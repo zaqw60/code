@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\EditRequest;
 use App\Models\Category;
-use App\Models\News;
 use App\Queries\CategoryQueryBuilder;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(CategoryQueryBuilder $builder)
     {
-        $categories = Category::select(Category::$selectedFields)->get();
        return view('admin.categories.index', [
            'categories' => $builder->getCategory()
        ]);
@@ -26,7 +29,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -36,32 +39,27 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param CreateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request): RedirectResponse
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5', 'max:255']
-        ]);
-
-
         $category = new Category(
-            $request->only(['title', 'description'])
+            $request->validated()
         );
 
         if ($category->save()){
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Новость добавлена');
+                ->with('success', __('messages.admin.categories.create.success'));
         }
-            return back('error', 'Не удалось добавить новость');
+            return back('error', __('messages.admin.categories.create.fail'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -71,8 +69,8 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Category $category
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Category $category)
     {
@@ -82,30 +80,38 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param EditRequest $request
      * @param Category $category
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(Request $request, Category $category)
+    public function update(EditRequest $request, Category $category): RedirectResponse
     {
-        $category->title = $request->input('title');
-        $category->description = $request->input('description');
+        $category = $category->fill($request->validated());
 
         if ($category->save()){
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Новость обновлена');
+                ->with('success', __('messages.admin.categories.update.success'));
         }
-        return back('error', 'Не удалось обновить новость');
+        return back('error', __('messages.admin.categories.update.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Category $category): JsonResponse
     {
-        //
+        try {
+            $deleted = $category->delete();
+            if ($deleted === false) {
+                return \response()->json('error', 400);
+            }
+            return \response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return \response()->json( 'error', 400);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
@@ -31,14 +32,11 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         return response()->json($request->only('userName', 'phone', 'email', 'description'));
-        $request->validate([
-            'title' => ['required', 'string', 'min:3', 'max:255']
-        ]);
     }
 
     /**

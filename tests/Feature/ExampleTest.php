@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Faker\Factory;
 use Tests\TestCase;
 
@@ -26,18 +25,7 @@ class ExampleTest extends TestCase
         $response->assertViewIs('admin.categories.create')->assertStatus(200);
     }
 
-    public function test_categories_create_return_json_page()
-    {
-        $faker = Factory::create();
-        $title = $faker->jobTitle();
-        $description = $faker->text(100);
-        $data = [
-            'title'=> $title,
-            'description' => $description
-        ];
-        $response = $this->post(route('admin.categories.store', $data));
-        $response->assertJson($data)->assertStatus(200);
-    }
+
     public function test_order_orderParsing_return_json_page()
     {
         $faker = Factory::create();

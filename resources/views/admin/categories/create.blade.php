@@ -2,16 +2,16 @@
 @section('content')
 <div class="offset-2 col-8">
     <h2>Добавление категории</h2>
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            @include('inc.message', ['message' => $error])
-        @endforeach
-    @endif
+
+    @include('inc.message')
+
     <form method="post" action="{{ route('admin.categories.store') }}">
         @csrf
+        @method('put')
         <div class="form-group">
             <label for="title">Заголовок</label>
             <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
+            @error('title') <span style="color: red">{{ $message }}</span> @enderror
         </div>
         <div class="form-group">
             <label for="description">Описание</label>

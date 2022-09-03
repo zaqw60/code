@@ -14,7 +14,7 @@ class Category extends Model
 
     protected $table = "categories";
 
-    public static $selectedFields = [
+    public static array $selectedFields = [
         'id',
         'title',
         'description',

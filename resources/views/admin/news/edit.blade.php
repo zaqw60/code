@@ -2,11 +2,9 @@
 @section('content')
     <div class="offset-2 col-8">
         <h2>Редактирование новости</h2>
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                @include('inc.message', ['message' => $error])
-            @endforeach
-        @endif
+
+        @include('inc.message')
+
         <form method="post" action="{{ route('admin.news.update', [
     'news'=> $news
 ]) }}">
@@ -17,7 +15,7 @@
                 <select name="category_id" class="form-control" id="category_id">
                     <option value="0">Выбрать</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @if($news->catigory_id) === $category->id) selected @endif>{{ $category->title }}</option>
+                        <option value="{{ $category->id }}" @if($news->catigory_id === $category->id) selected @endif>{{ $category->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -33,10 +31,12 @@
             <div class="form-group">
                 <label for="title">Заголовок</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ $news->title }}">
+                @error('title') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label for="author">Автор</label>
-                <input type="author" class="form-control" name="author" id="author" value="{{ $news->author }}">
+                <input type="text" class="form-control" name="author" id="author" value="{{ $news->author }}">
+                @error('author') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label for="status">Статус</label>
@@ -49,6 +49,7 @@
             <div class="form-group">
                 <label for="image">Изображение</label>
                 <input type="file" class="form-control" name="image" id="image">
+                @error('image') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label for="description">Описание</label>
