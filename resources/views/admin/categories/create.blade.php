@@ -7,7 +7,6 @@
 
     <form method="post" action="{{ route('admin.categories.store') }}">
         @csrf
-        @method('put')
         <div class="form-group">
             <label for="title">Заголовок</label>
             <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">

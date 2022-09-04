@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Categories\CreateRequest;
 use App\Http\Requests\Categories\EditRequest;
 use App\Models\Category;
+use App\Models\User;
 use App\Queries\CategoryQueryBuilder;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -104,10 +105,7 @@ class CategoryController extends Controller
     public function destroy(Category $category): JsonResponse
     {
         try {
-            $deleted = $category->delete();
-            if ($deleted === false) {
-                return \response()->json('error', 400);
-            }
+            $category->delete();
             return \response()->json('ok');
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
