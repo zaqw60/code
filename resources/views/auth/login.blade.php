@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Вход') }}</div>
+                <div class="card-header">{{ __('Авторизация') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -65,6 +65,7 @@
                             </div>
                         </div>
                     </form>
+                    <a href="{{ route('social.auth.redirect', ['driver' => 'vkontakte']) }}"><strong>Вход через ВК</strong></a>
                 </div>
             </div>
         </div>
