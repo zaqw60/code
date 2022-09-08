@@ -23,9 +23,11 @@ class EventServiceProvider extends ServiceProvider
         LoginEvent::class => [
             LastLoginUpdateListener::class
         ],
+
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         // ... other providers
         \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
+            \SocialiteProviders\GitHub\GitHubExtendSocialite::class.'@handle',
             ]
     ];
 
@@ -37,5 +39,15 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents(): bool
+    {
+        return false;
     }
 }

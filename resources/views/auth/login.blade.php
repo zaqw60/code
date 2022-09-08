@@ -66,6 +66,8 @@
                         </div>
                     </form>
                     <a href="{{ route('social.auth.redirect', ['driver' => 'vkontakte']) }}"><strong>Вход через ВК</strong></a>
+                    <br>
+                    <a href="{{ route('social.auth.redirect', ['driver' => 'github']) }}"><strong>Вход через GitHub</strong></a>
                 </div>
             </div>
         </div>

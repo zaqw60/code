@@ -31,10 +31,12 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function (){
     Route::get('/account', AccountController::class)
     ->name('account');
+
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'is_admin'], function (){
     Route::get('/', AdminController::class)
         -> name('index');
-    Route::get('/parser', ParserController::class)->name('parser');
+    Route::get('/parser', ParserController::class)
+        ->name('parser');
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('news', AdminNewsController::class);
     Route::resource('users', UserController::class);
@@ -42,7 +44,7 @@ Route::middleware('auth')->group(function (){
 });
 
 
- // news routesfeedback
+ // news routes
 
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
@@ -63,11 +65,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
 
 
-Route::group(['middleware' => 'guest'], function(){
+Route::group(['middleware' => 'guest'], function() {
     Route::get('/auth/redirect/{driver}', [SocialProvidersController::class, 'redirect'])
-        ->where('driver', '/w+')
+        ->where('driver', '\w+')
         ->name('social.auth.redirect');
 
     Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
-        ->where('driver', '/w+');
+        ->where('driver', '\w+');
 });
