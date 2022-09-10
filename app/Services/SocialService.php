@@ -11,16 +11,20 @@ use Laravel\Socialite\Contracts\User as SocialUser;
 
 class SocialService implements Social
 {
+    /**
+     * @param SocialUser $socialUser
+     * @return string
+     * @throws \Exception
+     */
     public function loginAndGetRedirectUrl(SocialUser $socialUser): string
     {
         $user = User::query()->where('email', '=', $socialUser->getEmail())->first();
         if ($user === null) {
-            return route('auth.register');
+            return route('register');
         }
 
         $user->name = $socialUser->getName();
         $user->avatar = $socialUser->getAvatar();
-//        dd($user);
 
         if ($user->save()) {
             Auth::loginUsingId($user->id);
