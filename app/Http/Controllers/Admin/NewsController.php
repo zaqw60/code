@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Source;
 use App\Queries\NewsQueryBuilder;
+use App\Services\UploadService;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
@@ -19,7 +21,7 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(NewsQueryBuilder $builder)
     {
@@ -29,7 +31,7 @@ class NewsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -65,10 +67,10 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string
      */
-    public function show($id)
+    public function show(int $id): string
     {
         return 'Admin Some News Show';
     }
@@ -101,9 +103,15 @@ class NewsController extends Controller
     public function update(
         EditRequest $request,
         News $news,
-        NewsQueryBuilder $builder
+        NewsQueryBuilder $builder,
+        UploadService $uploadService
     ): RedirectResponse {
-        if ($builder->update($news, $request->validated()))
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')){
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+        if ($builder->update($news, $validated))
         {
                 return redirect()->route('admin.news.index')
                     ->with('success', __('messages.admin.news.update.success'));
