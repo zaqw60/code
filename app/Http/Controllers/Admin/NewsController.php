@@ -108,11 +108,11 @@ class NewsController extends Controller
     ): RedirectResponse {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $validated['image'] = $uploadService->uploadImage($request->file('image'));
         }
-        if ($builder->update($news, $validated))
-        {
+
+        if ($builder->update($news, $validated)) {
                 return redirect()->route('admin.news.index')
                     ->with('success', __('messages.admin.news.update.success'));
         }

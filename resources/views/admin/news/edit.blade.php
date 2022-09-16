@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Изображение</label>
-                <input type="file" class="form-control" name="image" id="image">
+                <input type="image" class="form-control" name="image" id="image">
                 @error('image') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
@@ -57,3 +57,27 @@
         </form>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+    <script>
+        let options = {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=@csrf',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=@csrf'
+        };
+    </script>
+
+    <script>
+        CKEDITOR.replace('description', options);
+    </script>
+
+
+@endpush
