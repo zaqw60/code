@@ -10,7 +10,6 @@ use App\Models\News;
 use App\Models\Source;
 use App\Queries\NewsQueryBuilder;
 use App\Services\UploadService;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
@@ -21,7 +20,7 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(NewsQueryBuilder $builder)
     {
@@ -31,7 +30,7 @@ class NewsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -52,11 +51,16 @@ class NewsController extends Controller
      */
     public function store(
         CreateRequest $request,
-        NewsQueryBuilder $builder
+        NewsQueryBuilder $builder,
+        UploadService $uploadService
     ): RedirectResponse {
-        $news = $builder->create(
-            $request->validated()
-        );
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
+        $news = $builder->create($validated);
         if ($news){
             return redirect()->route('admin.news.index')
                 ->with('success', __('messages.admin.news.create.success'));
@@ -67,10 +71,10 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return string
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(int $id): string
+    public function show($id)
     {
         return 'Admin Some News Show';
     }
@@ -105,6 +109,7 @@ class NewsController extends Controller
         News $news,
         NewsQueryBuilder $builder,
         UploadService $uploadService
+
     ): RedirectResponse {
         $validated = $request->validated();
 

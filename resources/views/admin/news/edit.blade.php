@@ -18,8 +18,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="source_id">Выбрать источник</label>
-                <select class="form-control" name="source_id" id="source_id">
+                <label for="source_id">Выбрать источник </label>
+                <select name="source_id" class="form-control" id="source_id">
                     <option value="0">Выбрать</option>
                     @foreach($sources as $source)
                         <option value="{{ $source->id }}" @if($news->source_id === $source->id) selected @endif>{{ $source->title }}</option>
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Изображение</label>
-                <input type="image" class="form-control" name="image" id="image">
+                <input type="file" class="form-control" name="image" id="image">
                 @error('image') <span style="color: red">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
@@ -61,23 +61,14 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
-            .create( document.querySelector( '#description' ) )
+            .create( document.querySelector( '#description' ), {
+                        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+            })
             .catch( error => {
-                console.error( error );
-            } );
+                console.log( error );
+            });
     </script>
-    <script>
-        let options = {
-            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=@csrf',
-            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=@csrf'
-        };
-    </script>
-
-    <script>
-        CKEDITOR.replace('description', options);
-    </script>
-
-
 @endpush

@@ -5,9 +5,8 @@
 
         @include('inc.message')
 
-        <form method="post" action="{{ route('admin.news.store') }}">
+        <form method="post" action="{{ route('admin.news.store') }}" enctype="multipart/form-data">
             @csrf
-            @method('put')
             <div class="form-group">
                 <label for="category_id">Выбрать категорию</label>
                 <select name="category_id" class="form-control" id="category_id">
@@ -56,3 +55,18 @@
         </form>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ), {
+                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+            })
+            .catch( error => {
+                console.log( error );
+            });
+    </script>
+@endpush

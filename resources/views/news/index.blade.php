@@ -5,8 +5,9 @@
         @forelse($newsList as $news)
         <div class="col">
             <div class="card shadow-sm">
-                <img src="{{ Storage::disk('public')->url($news->image) }}" style="width:350px">
-                <h2>{{ $news->title }}</h2>
+                <img src="{{ Storage::disk('public')->url($news->image) }}">
+                <h3>{{ $news->title }}</h3>
+
                 <div class="card-body">
                     <p class="card-text">{!! $news->description !!}</p>
                     <div class="d-flex justify-content-between align-items-center">

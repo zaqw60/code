@@ -77,3 +77,8 @@ Route::group(['middleware' => 'guest'], function() {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 });
+
+// laravel filemanager route
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
