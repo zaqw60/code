@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Source;
 use App\Queries\NewsQueryBuilder;
+use App\Services\UploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
@@ -50,11 +51,16 @@ class NewsController extends Controller
      */
     public function store(
         CreateRequest $request,
-        NewsQueryBuilder $builder
+        NewsQueryBuilder $builder,
+        UploadService $uploadService
     ): RedirectResponse {
-        $news = $builder->create(
-            $request->validated()
-        );
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
+        $news = $builder->create($validated);
         if ($news){
             return redirect()->route('admin.news.index')
                 ->with('success', __('messages.admin.news.create.success'));
@@ -101,10 +107,17 @@ class NewsController extends Controller
     public function update(
         EditRequest $request,
         News $news,
-        NewsQueryBuilder $builder
+        NewsQueryBuilder $builder,
+        UploadService $uploadService
+
     ): RedirectResponse {
-        if ($builder->update($news, $request->validated()))
-        {
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
+        if ($builder->update($news, $validated)) {
                 return redirect()->route('admin.news.index')
                     ->with('success', __('messages.admin.news.update.success'));
         }

@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function (){
 
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
-Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '\d+')
+Route::get('/news/{news}', [NewsController::class, 'show'])->where('news', '\d+')
     ->name('news.show');
 
 
@@ -72,4 +72,9 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
         ->where('driver', '\w+');
+});
+
+// laravel filemanager route
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
 });

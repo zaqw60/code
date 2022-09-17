@@ -5,14 +5,14 @@
         @forelse($newsList as $news)
         <div class="col">
             <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title></title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ $news->title }}</text></svg>
+                <img src="{{ Storage::disk('public')->url($news->image) }}">
+                <h3>{{ $news->title }}</h3>
 
                 <div class="card-body">
                     <p class="card-text">{!! $news->description !!}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="{{ route('news.show', ['id' => $news->id]) }}" class="btn btn-sm btn-outline-secondary">Подробно</a>
+                            <a href="{{ route('news.show', ['news' => $news]) }}" class="btn btn-sm btn-outline-secondary">Подробно</a>
                         </div>
                         <small class="text-muted">{{ $news->created_at->format('d-m-Y H:i') }}--{{ $news->author }}</small>
                     </div>
@@ -23,6 +23,7 @@
             <h2>Новостей нет</h2>
         @endforelse
     </div>
+    {{ $newsList->links() }}
 @endsection
 
 

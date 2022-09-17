@@ -9,7 +9,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::all();
+        $news = News::query()->paginate(6);
         return view('news.index', ['newsList'=>$news]);
     }
 
@@ -17,9 +17,9 @@ class NewsController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(int $id)
+    public function show(News $news)
     {
-        $news = News::findOrFail($id);
+
         return view('news.show', ['news' => $news]);
     }
 }

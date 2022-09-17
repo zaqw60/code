@@ -5,17 +5,15 @@
 
         @include('inc.message')
 
-        <form method="post" action="{{ route('admin.news.update', [
-    'news'=> $news
-]) }}">
+        <form method="post" action="{{ route('admin.news.update', ['news'=> $news]) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="form-group">
                 <label for="category_id">Выбрать категорию</label>
-                <select name="category_id" class="form-control" id="category_id">
+                <select class="form-control" name="category_id" id="category_id">
                     <option value="0">Выбрать</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @if($news->catigory_id === $category->id) selected @endif>{{ $category->title }}</option>
+                        <option value="{{ $category->id }}" @if($news->category_id === $category->id) selected @endif>{{ $category->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -24,7 +22,7 @@
                 <select name="source_id" class="form-control" id="source_id">
                     <option value="0">Выбрать</option>
                     @foreach($sources as $source)
-                        <option value="{{ $source->id }}" @if(old('source_id') === $source->id) selected @endif>{{ $source->title }}</option>
+                        <option value="{{ $source->id }}" @if($news->source_id === $source->id) selected @endif>{{ $source->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -59,3 +57,18 @@
         </form>
     </div>
 @endsection
+@push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ), {
+                        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+            })
+            .catch( error => {
+                console.log( error );
+            });
+    </script>
+@endpush
