@@ -72,10 +72,6 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
         ->where('driver', '\w+');
-// fileManager route
-    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-        \UniSharp\LaravelFilemanager\Lfm::routes();
-    });
 });
 
 // laravel filemanager route

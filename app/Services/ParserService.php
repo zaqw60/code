@@ -39,7 +39,7 @@ class ParserService implements Parser
                 'uses' => 'channel.image.url'
             ],
             'news' => [
-                'uses' => 'channel.item[title,link,quid,description,pubDate]'
+                'uses' => 'channel.item[title, link, author, description, pubDate]'
             ]
         ]);
         $e = \explode("/", $this->link);
