@@ -5,7 +5,7 @@
         @forelse($newsList as $news)
         <div class="col">
             <div class="card shadow-sm">
-                <img src="{{ Storage::disk('public')->url($news->image) }}">
+{{--                <img src="{{ Storage::disk('public')->url($news->image) }}">--}}
                 <h3>{{ $news->title }}</h3>
 
                 <div class="card-body">

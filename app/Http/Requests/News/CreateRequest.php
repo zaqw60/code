@@ -30,7 +30,8 @@ class CreateRequest extends FormRequest
             'author' => ['nullable', 'string', 'min:3', 'max:200'],
             'status' => ['required', 'string', 'min:2', 'max:30'],
             'image' => ['nullable', 'image', 'mimes:jpg,png'],
-            'description' => ['nullable', 'string']
+            'description' => ['nullable', 'string'],
+            'created_at' => ['nullable|date']
         ];
     }
 }

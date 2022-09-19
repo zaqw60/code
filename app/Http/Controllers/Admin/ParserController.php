@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\JobNewsParsing;
+use App\Models\Source;
 use App\Services\Contracts\Parser;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -17,32 +19,15 @@ class ParserController extends Controller
      *
      * @param Request $request
      * @param Parser $parser
-     * @return Response
+     * @return string
      */
-    public function __invoke(Request $request, Parser $parser)
+    public function __invoke(Request $request, Parser $parser): string
     {
-        $urls = [
-            'https://news.rambler.ru/rss/SaintPetersburg',
-            'https://news.rambler.ru/rss/Zaporozhye',
-            'https://news.rambler.ru/rss/holiday',
-            'https://news.rambler.ru/rss/technology',
-            'https://news.rambler.ru/rss/gifts',
-            'https://news.rambler.ru/rss/world',
-            'https://news.rambler.ru/rss/moscow_city',
-            'https://news.rambler.ru/rss/politics',
-            'https://news.rambler.ru/rss/community',
-            'https://news.rambler.ru/rss/incidents',
-            'https://news.rambler.ru/rss/tech',
-            'https://news.rambler.ru/rss/starlife',
-            'https://news.rambler.ru/rss/army',
-            'https://news.rambler.ru/rss/games',
-            'https://news.rambler.ru/rss/articles',
-            'https://news.rambler.ru/rss/video',
-            'https://news.rambler.ru/rss/photo',
-            'https://news.rambler.ru/rss/podcast',
-        ];
+        $urls = Source::all();
+
         foreach ($urls as $url) {
-            \dispatch(new JobNewsParsing($url));
+            $link = $url->url;
+            \dispatch(new JobNewsParsing($link));
         }
 
         return "Parsing completed";

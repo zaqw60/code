@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use \App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\SocialProvidersController;
 
 
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function (){
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('news', AdminNewsController::class);
     Route::resource('users', UserController::class);
+    Route::resource('sources', SourceController::class);
 });
 });
 

@@ -25,6 +25,12 @@
                     Пользователи
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.sources.*')) active @endif" href="{{ route('admin.sources.create') }}">
+                    <span data-feather="shopping-cart"></span>
+                    Добавить источники
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

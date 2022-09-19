@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Categories\CreateRequest;
 use App\Http\Requests\Categories\EditRequest;
 use App\Models\Category;
-use App\Models\User;
 use App\Queries\CategoryQueryBuilder;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;

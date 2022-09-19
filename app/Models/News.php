@@ -22,7 +22,8 @@ class News extends Model
         'author',
         'status',
         'image',
-        'description'
+        'description',
+        'created_at'
     ];
 
     //Relations

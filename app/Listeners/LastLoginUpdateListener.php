@@ -3,10 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class LastLoginUpdateListener
 {
