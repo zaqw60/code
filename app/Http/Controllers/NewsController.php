@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\News;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $news = $this->getNews();
-        return view('news.index', ['newsList' => $news]);
+        $news = News::query()->paginate(6);
+        return view('news.index', ['newsList'=>$news]);
     }
 
-    public function show(int $id)
+    /**
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show(News $news)
     {
-        $news = $this->getNews( $id);
+
         return view('news.show', ['news' => $news]);
     }
 }
