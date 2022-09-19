@@ -19,9 +19,9 @@ class ParserController extends Controller
      *
      * @param Request $request
      * @param Parser $parser
-     * @return string
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function __invoke(Request $request, Parser $parser): string
+    public function __invoke(Request $request, Parser $parser): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $urls = Source::all();
 
@@ -30,6 +30,6 @@ class ParserController extends Controller
             \dispatch(new JobNewsParsing($link));
         }
 
-        return "Parsing completed";
+        return view('admin.index');
     }
 }
